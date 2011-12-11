@@ -1,0 +1,43 @@
+h2 .grey{
+	color:#999;
+}
+.example{
+	color:#ccc;
+	font-size:20px;
+	font-weight:normal;
+	margin-top:5px;
+}
+.bg-grey{
+	background-color:#f2f2f2;
+}
+.bg-white{
+	background-color:#fff;
+	border:1px solid #ccc;
+	margin-left:20px;
+	margin-right:20px;
+	min-height:60px;
+}
+.roundcorner{
+	padding-left:10px;
+	padding-right:10px;
+	padding-top:5px;
+	padding-bottom:5px;
+	-webkit-border-radius: 5px;
+  	-moz-border-radius: 5px;
+	margin-top:20px;
+}
+.mtop10{
+	margin-top:10px;
+}
+.mtop20{
+	margin-top:20px;
+}
+.mleft20{
+	margin-left:20px;
+}
+.mbottom10{
+	margin-bottom:10px;
+}
+.align-right{
+	text-align:right;
+}
