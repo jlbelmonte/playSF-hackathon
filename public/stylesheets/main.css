@@ -1,3 +1,7 @@
+h1.logo{
+	font-size:300%;
+	color:#435557;
+}
 h2 .grey{
 	color:#999;
 }
@@ -18,9 +22,6 @@ h2 .grey{
 .username.bg-white{
 	min-height:0px;
 	padding-right:14px;
-}
-.mbottom10 {
-	margin-bottom:10px;
 }
 .roundcorner{
 	padding-left:10px;
