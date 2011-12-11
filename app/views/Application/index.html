@@ -8,15 +8,14 @@
 				<span class="grey">Check out influencers</span> to get noticed by before you tweet
 			</h2>
 			
-			<form class="roundcorner bg-grey" action="" method="" accept-charset="utf-8">
+			<form class="roundcorner bg-grey" action="@@{Application.index}" method="POST" accept-charset="utf-8">
 				<fieldset>
 					<div class="input-prepend">
 						<span class="add-on">@</span>
-						<input type="text" name="" placeholder="username" class="example">
+						<input type="text" name="twitter_name" placeholder="username" class="example">
 					</div>
-					<textarea class="tweet span11 example" placeholder="Copy your tweet here" id="" name="" rows="3" maxlenght="140"></textarea>
-					<div class="btn primary mtop10 large text-centered span4">Check out influencers!
-					</div>
+					<textarea class="tweet span11 example" placeholder="Copy your tweet here" id="" name="tweet" rows="3" maxlenght="140"></textarea>
+					<button type="submit" class="btn primary mtop10 large text-centered span4">Check out influencers!</button>
 				</fieldset>
 			</form>
 		</div>
