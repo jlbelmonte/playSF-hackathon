@@ -5,10 +5,8 @@ h2 .grey{
 	color:#ccc;
 	font-size:140%;
 	font-weight:normal;
-	margin-top:5px;
-}
-.bg-grey{
-	background-color:#f2f2f2;
+	font-style:italic;
+	padding-left:10px;
 }
 .bg-white{
 	background-color:#fff;
@@ -28,6 +26,17 @@ h2 .grey{
 	padding-bottom:5px;
 	-webkit-border-radius: 5px;
   	-moz-border-radius: 5px;
+	margin-top:10px;
+}
+.bg-grey{
+	background-color:#f2f2f2;
+	padding-left:20px;
+}
+.tweet{
+	padding-left:10px;
+	padding-right:10px;
+	padding-top:5px;
+	padding-bottom:5px;
 	margin-top:10px;
 }
 .mtop10{
@@ -57,4 +66,7 @@ h2 .grey{
 .linktitle{
 	font-size:120%;
 	line-height:130%;
+}
+.text-centered{
+	text-align:center;
 }
