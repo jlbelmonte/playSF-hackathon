@@ -70,3 +70,12 @@ h2 .grey{
 .text-centered{
 	text-align:center;
 }
+.text-right{
+	text-align:right;
+}
+.small{
+	font-size:90%;
+}
+.valign-bottom{
+	vertical-align:bottom;
+}
