@@ -44,13 +44,15 @@ public class Application extends Controller {
 		Json followersByTopics = KloutImporter.getFollowersGroupedByTopic(followers);
 		List<String> topicsFound = Utils.topicsFound(tweet, followersByTopics);
 		Set<String> userScreenNames = Utils.getUserScreenNames(followersByTopics, topicsFound);
-		if (userScreenNames.isEmpty()) {
-			renderArgs.put("results", new ArrayList<KloutUser>());
+		System.out.println(userScreenNames);
+		/*if (userScreenNames.isEmpty()) {
+			renderArgs.put("results", Json.list());
 			render();
-		}
+		}*/
 		
 		List<KloutUser> kloutUsers = KloutImporter.getUsers(userScreenNames);
-		renderArgs.put("results", kloutUsers);
+		System.out.println("Size " + kloutUsers.size());
+		renderArgs.put("kloutUsers", kloutUsers);
 		render();
 	}
 

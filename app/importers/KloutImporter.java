@@ -43,8 +43,8 @@ public class KloutImporter {
 						for (Json user : response.get("users")) {
 							KloutUser kloutUser = new KloutUser();
 							kloutUser.screenName = user.get("twitter_screen_name").str();
-							kloutUser.amplificationScore = user.get("amplification_score").asInt();
-							kloutUser.kloutScore = (int) user.get("kscore").asFloat();
+							kloutUser.amplificationScore = user.get("score").get("amplification_score").asInt();
+							kloutUser.kloutScore = (int) user.get("score").get("kscore").asFloat();
 							result.add(kloutUser);
 						}
 					}

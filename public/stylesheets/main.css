@@ -19,6 +19,9 @@ h2 .grey{
 	min-height:0px;
 	padding-right:14px;
 }
+.mbottom10 {
+	margin-bottom:10px;
+}
 .roundcorner{
 	padding-left:10px;
 	padding-right:10px;
@@ -69,4 +72,13 @@ h2 .grey{
 }
 .text-centered{
 	text-align:center;
+}
+.text-right{
+	text-align:right;
+}
+.small{
+	font-size:90%;
+}
+.valign-bottom{
+	vertical-align:bottom;
 }
