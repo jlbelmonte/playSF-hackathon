@@ -16,6 +16,7 @@ import models.KloutUser;
 
 import org.apache.commons.io.IOUtils;
 
+import play.Logger;
 import play.Play;
 import play.mvc.Controller;
 import play.templates.JavaExtensions;
@@ -36,19 +37,17 @@ public class Application extends Controller {
 		String twitterName = params.get("twitter_name");
 		
 		if (tweet == null || tweet.isEmpty() || twitterName == null || twitterName.isEmpty()) {
-			System.out.println("Params not found");
+			Logger.info("Params not found");
+			Logger.info(Play.configuration.getProperty("twitter.accessToken"));
 			render();
 		}
-
+		
+		Logger.info("Params received. Twitter %s, tweet %s");
 		List<String> followers = TwitterImporter.getFollowersScreenName(twitterName);
 		Json followersByTopics = KloutImporter.getFollowersGroupedByTopic(followers);
 		List<String> topicsFound = Utils.topicsFound(tweet, followersByTopics);
 		Set<String> userScreenNames = Utils.getUserScreenNames(followersByTopics, topicsFound);
 		System.out.println(userScreenNames);
-		/*if (userScreenNames.isEmpty()) {
-			renderArgs.put("results", Json.list());
-			render();
-		}*/
 		
 		List<KloutUser> kloutUsers = KloutImporter.getUsers(userScreenNames);
 		System.out.println("Size " + kloutUsers.size());
