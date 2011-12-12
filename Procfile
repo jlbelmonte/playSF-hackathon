@@ -1,2 +1,0 @@
-web:    play run --twitter.accessToken=$TWITTER_ACCESS_TOKEN 
---twitter.tokenSecret=$TWITTER_TOKEN_SECRET --twitter.consumerKey=$TWITTER_CONSUMER_KEY --twitter.consumerSecret=$TWITTER_CONSUMER_SECRET --kloutKey=$KLOUT_KEY $PLAY_OPTS
