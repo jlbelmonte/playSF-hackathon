@@ -66,7 +66,7 @@ public class KloutImporter {
 	public static Json getFollowersGroupedByTopic(List<String> followers) {
 		Collections.shuffle(followers);
 		Json results = Json.map();
-		int max = 200;
+		int max = 300;
 		if (followers.size() < max) {
 			max = followers.size();
 		}
