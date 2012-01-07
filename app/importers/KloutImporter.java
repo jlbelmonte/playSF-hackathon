@@ -6,6 +6,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.Collections;
 
 import models.KloutUser;
 
@@ -63,6 +64,7 @@ public class KloutImporter {
 	}
 	
 	public static Json getFollowersGroupedByTopic(List<String> followers) {
+		Collections.shuffle(followers);
 		Json results = Json.map();
 		int max = 200;
 		if (followers.size() < max) {
