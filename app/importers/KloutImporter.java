@@ -64,7 +64,11 @@ public class KloutImporter {
 	
 	public static Json getFollowersGroupedByTopic(List<String> followers) {
 		Json results = Json.map();
-		for(int i = 0; i < followers.size(); i+=5) {
+		int max = 250;
+		if (followers.size() < max) {
+			max = followers.size();
+		}
+		for(int i = 0; i < max; i+=5) {
 			int start = i;
 			int end = i+5;
 
@@ -92,7 +96,7 @@ public class KloutImporter {
 							}
 						}
 					}
-					Thread.sleep(200);
+					Thread.sleep(40);
 				}
 				if (conn.getResponseCode() != 200) {
 					throw new Exception("Error code : "+conn.getResponseCode()+" while fetching URL: "+url);
