@@ -22,8 +22,7 @@
 				</fieldset>
 			</form>
 		</div>
-		
-		<div class="span12 offset2">
+		<div class="span12 offset2 results">
 			#{if kloutUsers?.isEmpty()}
 			<div class="">
 				<h3 class="mtop20">Sorry, no influencers for your tweet...</h3>
@@ -60,10 +59,17 @@
 			#{else}
 			<hr />
 			#{/else}
-			<div class="span12 offset2 text-right mbottom10">
-				<span class="small">powered by</span> <img src="https://mb-misc.s3.amazonaws.com/klout.png" title="Klout" width="80px" class="valign-bottom" />
-				
-			</div>
+		</div>
+		<div class="span12 offset2 text-right mbottom10">
+			<span class="small">powered by</span> <img src="https://mb-misc.s3.amazonaws.com/klout.png" title="Klout" width="80px" class="valign-bottom" />
 		</div>
 	</div>
 </div>
+#{set 'moreScripts'}
+<script type="text/javascript">
+	var URL_GET_KLOUT_USERS = '@{Application.getKloutUsers}';
+	var URL_GET_FOLLOWERS = '@{Application.getTwitterFollowers}';
+	var URL_GET_FOLLOWERS_BY_TOPICS = '@{Application.getFollowersByTopics}';
+	var IMG_CAT = '@{'/public/images/sad_cat.jpg'}'
+</script>
+#{/set}

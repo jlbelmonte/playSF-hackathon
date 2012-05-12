@@ -33,26 +33,24 @@ import utils.Utils;
 public class Application extends Controller {
 
 	public static void index() {
-		String tweet = params.get("tweet");
-		String twitterName = params.get("twitter_name");
-		
-		if (tweet == null || tweet.isEmpty() || twitterName == null || twitterName.isEmpty()) {
-			Logger.info("Params not found");
-			Logger.info(Play.configuration.getProperty("twitter.accessToken"));
-			render();
-		}
-		
-		Logger.info("Params received. Twitter %s, tweet %s");
-		List<String> followers = TwitterImporter.getFollowersScreenName(twitterName);
-		Json followersByTopics = KloutImporter.getFollowersGroupedByTopic(followers);
-		List<String> topicsFound = Utils.topicsFound(tweet, followersByTopics);
-		Set<String> userScreenNames = Utils.getUserScreenNames(followersByTopics, topicsFound);
-		System.out.println(userScreenNames);
-		
-		List<KloutUser> kloutUsers = KloutImporter.getUsers(userScreenNames);
-		System.out.println("Size " + kloutUsers.size());
-		renderArgs.put("kloutUsers", kloutUsers);
 		render();
+	}
+
+	public static void getTwitterFollowers(String twitterName) {
+		if (twitterName == null || twitterName.isEmpty()) {
+			renderJSON(Json.map().put("error", "twitter name required").toString());
+		}
+
+		Json followers = TwitterImporter.getFollowersScreenName(twitterName);
+		renderJSON(followers.toString());	
+	}
+
+	public static void getFollowersByTopics(String followers) throws Exception {
+		renderJSON(KloutImporter.getFollowersGroupedByTopic(followers).toString());
+	}
+	
+	public static void getKloutUsers(String followers) throws Exception {
+		renderJSON(KloutImporter.getUsers(followers).toString());
 	}
 
 }

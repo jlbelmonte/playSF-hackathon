@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import play.Play;
+import siena.Json;
 import twitter4j.IDs;
 import twitter4j.ResponseList;
 import twitter4j.Twitter;
@@ -15,7 +16,7 @@ import twitter4j.auth.AccessToken;
 
 public class TwitterImporter {
 
-	public static List<String> getFollowersScreenName(String twitterName) {
+	public static Json getFollowersScreenName(String twitterName) {
 		Twitter twitter = new TwitterFactory().getInstance();
 		String twitterAccessToken = Play.configuration.getProperty("twitter.accessToken");
 		String twitterTokenSecret = Play.configuration.getProperty("twitter.tokenSecret");
@@ -30,14 +31,13 @@ public class TwitterImporter {
 		do {
 			try {
 				ids = twitter.getFollowersIDs(twitterName, cursor);
-			} catch (TwitterException e) {
-			}
+			} catch (TwitterException e) {}
 		} while (ids != null && (cursor = ids.getNextCursor()) != 0);
+
 		if (ids == null) {
-			//TODO 
+			return Json.list();
 		}
 		long[] longs = ids.getIDs();
-
 		List<User> users = new ArrayList<User>();
 		int counter = 0;
 		do {
@@ -53,11 +53,11 @@ public class TwitterImporter {
 				users.addAll(response);
 			} catch (TwitterException e) {
 			}
-		} while (counter <= longs.length -1);
-		List<String> userScreenNames = new ArrayList<String>();
+		} while (counter < longs.length);
+		Json result = Json.list();
 		for (User user : users) {
-			userScreenNames.add(user.getScreenName());
+			result.add(user.getScreenName());
 		}
-		return userScreenNames;
+		return result;
 	}
 }
