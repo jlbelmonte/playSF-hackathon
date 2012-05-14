@@ -1,38 +1,98 @@
 $(document).ready(function() {
+	var twitterHandler;
+	var tweetContent;
+	var followers = [];
 	var topicsByFollowers = {};
 	var topicsFound = [];
 	var influencers = [];
 	var influencersInfo = [];
+	var totalPages = 0;
 	
 	$('form').live('submit', function(e){
 		e.preventDefault();
-		//TODO validate fields
-		getFollowers($('input[name="twitter_name"]').val());
+		var twitterName = $('input[name="twitter_name"]').val();
+		var error = false;
+		
+		$('input[name="twitter_name"]').parent().children('.help-inline').remove();
+		$('input[name="twitter_name"]').parent().removeClass('error');
+		if (twitterName == null || twitterName === '') {
+			$('input[name="twitter_name"]').parent().addClass('error');
+			$('input[name="twitter_name"]').after($('<span>').addClass('help-inline').text('Required'));
+			error = true;
+		}
+		
+		var tweetContent = $('textarea[name="tweet"]').val();
+		
+		$('textarea[name="tweet"]').parent().children('.help-inline').remove();
+		$('textarea[name="tweet"]').parent().removeClass('error');
+		if (tweetContent == null || tweetContent === '') {
+			$('textarea[name="tweet"]').parent().addClass('error');
+			$('textarea[name="tweet"]').after($('<div>').addClass('help-inline').text('Required'));
+			error = true;
+		}
+		
+		if (error) {
+			return;
+		}
+		
+		if (twitterHandler !== twitterName) {
+			followers = [];
+			topicsByFollowers = {};
+			topicsFound = [];
+			influencers = [];
+			influencersInfo = [];
+			twitterHandler = twitterName;
+			getFollowers();
+		} else {
+			topicsFound = [];
+			influencers = [];
+			influencersInfo = [];
+			findTopics();
+			getFollowersInfluentInFoundTopics();
+			drawProgressBarAndMessage('Getting Klout\'s info for your followers');
+			getKloutUserInformation(0);
+			
+		}
 	});
 
-	function getFollowers(twitterName) {
+	function drawProgressBarAndMessage(message) {
+		$('.results').empty();
+		$('.results').append($('<h3>').addClass('text-centered').text(' ' + message));
+		var bar = $('<div>').addClass('progress').addClass('progress-striped').append($('<div>').addClass('bar').width('0%'));
+		$('.results').append(bar);
+	}
+	function getFollowers(retrying) {
+		$('.results').empty();
+		$('.results').append($('<h3>').addClass('text-centered').append($('<img>').attr('src', IMG_SPINNER)).append($('<span>').text(' Getting your followers from Twitter')));
+		if (retrying) {
+			$('.results').append($('<div>').addClass('text-centered').text('Error, retrying'));
+		}
 		$.ajax({
 			method: 'GET',
-			data: {twitterName: twitterName},
+			data: {twitterName: twitterHandler},
 			url: URL_GET_FOLLOWERS,
 			success: function(data) {
-				getTopicsByFollowers(data, 0);
+				followers = data;
+				drawProgressBarAndMessage('Getting topics from your followers');
+				totalPages = Math.ceil(followers.length / 5);
+				getTopicsByFollowers(0);
 			},
 			error: function() {
-				getFollowers(twitterName);
+				getFollowers(true);
 			}
 		});
 	}
 	
-	function getTopicsByFollowers(followers, page) {
+	function getTopicsByFollowers(page) {
 		var followersToRequest = "";
-		
+		$('.results').children('.progress').children('.bar').width((page*100/totalPages)+"%");
 		for(var i = page * 5; (i < (page + 1) * 5) && (i < followers.length); i++) {
 			followersToRequest += followers[i] + ",";
 		}
 		if (followersToRequest == "") {
 			findTopics();
 			getFollowersInfluentInFoundTopics();
+			drawProgressBarAndMessage('Getting Klout\'s info for your followers');
 			getKloutUserInformation(0);
 			return;
 		}
@@ -48,17 +108,19 @@ $(document).ready(function() {
 					}
 					topicsByFollowers[key] = currentValue.concat(data[key]);
 				}
-				getTopicsByFollowers(followers, page+1);
+				getTopicsByFollowers(page+1);
 			},
 			error: function() {
 				setTimeout(function() {
-					getTopicsByFollowers(followers, page)
+					getTopicsByFollowers(page)
 				}, 1000);
 			}
 		});
 	}
 	
 	function findTopics() {
+		$('.results').empty();
+		$('.results').append($('<h3>').addClass('text-centered').text(' Extracting keywords from your tweet'));
 		var tweetContent = ' ' + $('textarea[name="tweet"]').val().toLowerCase() + ' ';
 		for(key in topicsByFollowers) {
 			if (tweetContent.indexOf(' ' + key.toLowerCase() + ' ') != -1) {
@@ -71,9 +133,11 @@ $(document).ready(function() {
 		for(var i = 0; i < topicsFound.length; i++) {
 			influencers = influencers.concat(topicsByFollowers[topicsFound[i]]);
 		}
+		totalPages = Math.ceil(influencers.length/5);
 	}
 	
 	function getKloutUserInformation(page) {
+		$('.results').children('.progress').children('.bar').width((page*100/totalPages)+"%");
 		var influencersToRequest = "";
 		for(var i = page * 5; (i < (page + 1) * 5) && (i < influencers.length); i++) {
 			influencersToRequest += influencers[i] + ",";

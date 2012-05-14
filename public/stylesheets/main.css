@@ -83,3 +83,7 @@ h2 .grey{
 .valign-bottom{
 	vertical-align:bottom;
 }
+
+form .clearfix {
+	margin-bottom: 0px;
+}

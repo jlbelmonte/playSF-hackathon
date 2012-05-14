@@ -12,55 +12,23 @@
 			
 			<form id="form" class="roundcorner bg-grey" action="@@{Application.index}" method="POST" accept-charset="utf-8">
 				<fieldset>
-					<div class="input-prepend">
+					<div class="input-prepend clearfix">
 						<span class="add-on">@</span>
 						<input type="text" name="twitter_name" placeholder="username" class="example" value="${params.twitter_name}">
 
 					</div>
-					<textarea class="tweet span11 example" placeholder="Copy your tweet here" id="" name="tweet" rows="3" maxlenght="140">${params.tweet}</textarea>
+					<div class="clearfix">
+						<textarea class="tweet span11 example" placeholder="Copy your tweet here" id="" name="tweet" rows="3" maxlenght="140">${params.tweet}</textarea>
+					</div>
 					<button type="submit" class="btn primary mtop10 large text-centered span4">Find influencers!</button>
 				</fieldset>
 			</form>
 		</div>
 		<div class="span12 offset2 results">
-			#{if kloutUsers?.isEmpty()}
-			<div class="">
-				<h3 class="mtop20">Sorry, no influencers for your tweet...</h3>
-				<div class="mbottom10">Why don't you try again changing or adding some words?</div>
-				<div>
-					<img src="@{'/public/images/sad_cat.jpg'}" title="Sad cat" width="250px" class="mtop20"/>
-				</div>
-			</div>
-			#{/if}
-			#{elseif kloutUsers != null}
-			<h3 class="mtop20 mbottom10">Best influencers for your tweet</h3>
-			#{list items:kloutUsers, as:'kloutUser'}
-			
-				#{if kloutUser_parity != "even"}
-				<div class="row">
-				#{/if}
-				<div class="span6">
-					<div class="row">
-						<div class="span1 klout">${kloutUser.kloutScore}
-						</div>
-						<div class="span4">
-							<a href="https://twitter.com/!#/${kloutUser.screenName}" class="linktitle" target="_blank">@${kloutUser.screenName}</a> 
-							<div>Amplification score: <strong>${kloutUser.amplificationScore}</strong></div>
-						</div>
-					</div>
-				</div>
-				#{if kloutUser_parity == "even" || kloutUser_isLast}
-				
-				</div>
-				<hr />
-				#{/if}
-			#{/list}
-			#{/elseif}
-			#{else}
-			<hr />
-			#{/else}
 		</div>
+		
 		<div class="span12 offset2 text-right mbottom10">
+			<hr/>
 			<span class="small">powered by</span> <img src="https://mb-misc.s3.amazonaws.com/klout.png" title="Klout" width="80px" class="valign-bottom" />
 		</div>
 	</div>
@@ -70,6 +38,7 @@
 	var URL_GET_KLOUT_USERS = '@{Application.getKloutUsers}';
 	var URL_GET_FOLLOWERS = '@{Application.getTwitterFollowers}';
 	var URL_GET_FOLLOWERS_BY_TOPICS = '@{Application.getFollowersByTopics}';
-	var IMG_CAT = '@{'/public/images/sad_cat.jpg'}'
+	var IMG_CAT = '@{'/public/images/sad_cat.jpg'}';
+	var IMG_SPINNER = '@{'/public/images/spinner.gif'}'
 </script>
 #{/set}
